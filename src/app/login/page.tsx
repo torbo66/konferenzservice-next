@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
@@ -11,6 +11,23 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [version, setVersion] = useState('')
+  const [buildDate, setBuildDate] = useState('')
+
+  useEffect(() => {
+    supabase
+      .from('app_meta')
+      .select('version, build_date')
+      .eq('id', 1)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          setVersion(data.version ?? '')
+          setBuildDate(data.build_date ?? '')
+        }
+      })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -50,7 +67,17 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold mb-1">
           Konferenz<span className="text-lime-400">Service</span>
         </h1>
-        <p className="text-xs text-neutral-500 font-mono mb-8">{'// Anmeldung'}</p>
+        <p className="text-xs text-neutral-500 font-mono mb-8">
+          {version ? (
+            <>
+              {'// Dashboard ' + version}
+              <br />
+              {'// Stand ' + buildDate}
+            </>
+          ) : (
+            '// Anmeldung'
+          )}
+        </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

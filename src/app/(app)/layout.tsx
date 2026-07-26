@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { getCurrentProfile, getLocations } from '@/lib/data'
+import { getAppMeta, getCurrentProfile, getLocations } from '@/lib/data'
 import { Sidebar } from './sidebar'
 
 export default async function AppLayout({
@@ -10,7 +10,7 @@ export default async function AppLayout({
   const profile = await getCurrentProfile()
   if (!profile) redirect('/login')
 
-  const locations = await getLocations()
+  const [locations, appMeta] = await Promise.all([getLocations(), getAppMeta()])
   const locationLabel =
     profile.role === 'admin'
       ? 'Alle Standorte'
@@ -22,6 +22,8 @@ export default async function AppLayout({
         role={profile.role}
         displayName={profile.vorname ?? profile.username}
         locationLabel={locationLabel}
+        appVersion={appMeta.version}
+        appBuildDate={appMeta.build_date}
       />
       <main className="flex-1 min-w-0 px-8 py-8">{children}</main>
     </div>

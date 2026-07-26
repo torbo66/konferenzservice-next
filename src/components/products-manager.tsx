@@ -3,16 +3,18 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { Category, Product } from '@/lib/types'
+import { ProductCsvImport } from './product-csv-import'
 
 export function ProductsManager({
   initialProducts,
-  categories,
+  categories: initialCategories,
 }: {
   initialProducts: Product[]
   categories: Category[]
 }) {
   const supabase = createClient()
   const [products, setProducts] = useState(initialProducts)
+  const [categories, setCategories] = useState(initialCategories)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Product | null>(null)
 
@@ -93,8 +95,15 @@ export function ProductsManager({
 
   return (
     <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
-        Produkte
+      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400 flex items-center justify-between">
+        <span>Produkte</span>
+        <ProductCsvImport
+          categories={categories}
+          onImported={(prods, cats) => {
+            setProducts(prods)
+            setCategories(cats)
+          }}
+        />
       </div>
       <div className="p-4">
         <table className="w-full text-sm">

@@ -25,10 +25,14 @@ export function Sidebar({
   role,
   displayName,
   locationLabel,
+  appVersion,
+  appBuildDate,
 }: {
   role: Role
   displayName: string
   locationLabel: string
+  appVersion: string
+  appBuildDate: string
 }) {
   const pathname = usePathname()
   const items = NAV_ITEMS.filter((i) => i.roles.includes(role))
@@ -75,6 +79,13 @@ export function Sidebar({
         <div className="mt-2">
           <LogoutButton />
         </div>
+        {appVersion && (
+          <div className="mt-3 text-[10px] text-neutral-600">
+            {appVersion}
+            <br />
+            {appBuildDate}
+          </div>
+        )}
       </div>
     </aside>
   )
