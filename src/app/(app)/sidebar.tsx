@@ -15,9 +15,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Übersicht', href: '/uebersicht', roles: ['admin', 'user'] },
   { label: 'Buchungen', href: '/buchungen', roles: ['admin', 'user'] },
   { label: 'Kalender', href: '/kalender', roles: ['admin', 'user', 'service'] },
-  { label: 'Abrechnung', href: null, roles: ['admin', 'user'] },
+  { label: 'Abrechnung', href: '/abrechnung', roles: ['admin', 'user'] },
   { label: 'Stammdaten', href: '/stammdaten', roles: ['admin'] },
-  { label: 'Service', href: null, roles: ['service'] },
+  { label: 'Service', href: '/service', roles: ['service'] },
   { label: 'Einstellungen', href: '/einstellungen', roles: ['admin', 'user', 'service'] },
 ]
 
