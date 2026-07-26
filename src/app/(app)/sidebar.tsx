@@ -14,7 +14,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Übersicht', href: '/uebersicht', roles: ['admin', 'user'] },
   { label: 'Buchungen', href: '/buchungen', roles: ['admin', 'user'] },
-  { label: 'Kalender', href: null, roles: ['admin', 'user', 'service'] },
+  { label: 'Kalender', href: '/kalender', roles: ['admin', 'user', 'service'] },
   { label: 'Abrechnung', href: null, roles: ['admin', 'user'] },
   { label: 'Produkte', href: null, roles: ['admin', 'user'] },
   { label: 'Stammdaten', href: '/stammdaten', roles: ['admin'] },

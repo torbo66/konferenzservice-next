@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import {
   getBookings,
   getCategories,
@@ -25,6 +26,7 @@ export default async function BuchungenPage() {
     ])
 
   if (!profile) return null
+  if (profile.role === 'service') redirect('/kalender')
 
   return (
     <div>
