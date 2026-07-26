@@ -64,7 +64,7 @@ export function ServiceDetailModal({
             ✕
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-5 print-area">
           <div className="flex gap-2 mb-4">
             <span className="text-xs px-2 py-1 rounded bg-neutral-700">
               {STATUS_LABEL[booking.status] ?? booking.status}
