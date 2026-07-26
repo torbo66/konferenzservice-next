@@ -17,9 +17,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Kalender', href: null, roles: ['admin', 'user', 'service'] },
   { label: 'Abrechnung', href: null, roles: ['admin', 'user'] },
   { label: 'Produkte', href: null, roles: ['admin', 'user'] },
-  { label: 'Stammdaten', href: null, roles: ['admin'] },
+  { label: 'Stammdaten', href: '/stammdaten', roles: ['admin'] },
   { label: 'Service', href: null, roles: ['service'] },
-  { label: 'Einstellungen', href: null, roles: ['admin', 'user', 'service'] },
+  { label: 'Einstellungen', href: '/einstellungen', roles: ['admin', 'user', 'service'] },
 ]
 
 export function Sidebar({

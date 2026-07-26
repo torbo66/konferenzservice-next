@@ -65,13 +65,21 @@ export async function getLocations(): Promise<Location[]> {
 export async function getSettings(): Promise<{
   favorites: number[]
   quick_select: number[]
+  timeout: number
 }> {
   const supabase = await createClient()
   const { data } = await supabase.from('settings').select('*').eq('id', 1).single()
   return {
     favorites: data?.favorites ?? [],
     quick_select: data?.quick_select ?? [],
+    timeout: data?.timeout ?? 30,
   }
+}
+
+export async function getAppMeta(): Promise<{ version: string; build_date: string }> {
+  const supabase = await createClient()
+  const { data } = await supabase.from('app_meta').select('*').eq('id', 1).single()
+  return { version: data?.version ?? '', build_date: data?.build_date ?? '' }
 }
 
 /** Sichtbare Raeume: Admin sieht alle, sonst nur der eigene Standort. */
