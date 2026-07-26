@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import type { Booking, CostCenter, Location, Product, Profile, Room } from '@/lib/types'
 import { BookingRow, nextStatus } from './booking-row'
 import { BookingModal } from './booking-modal'
+import { BookingPrintModal } from './booking-print-modal'
 
 function ymd(d: Date) {
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')
@@ -54,6 +55,7 @@ export function CalendarView({
   const [selected, setSelected] = useState<string | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Booking | null>(null)
+  const [printBooking, setPrintBooking] = useState<Booking | null>(null)
 
   const today = new Date()
   const todayStr = ymd(today)
@@ -239,6 +241,7 @@ export function CalendarView({
                   onEdit={openEdit}
                   onAdvanceStatus={handleAdvanceStatus}
                   onDelete={handleDelete}
+                  onPrint={setPrintBooking}
                 />
               ))
             )}
@@ -257,6 +260,16 @@ export function CalendarView({
           onFavoritesChange={setFavorites}
           onClose={() => setModalOpen(false)}
           onSaved={handleSaved}
+        />
+      )}
+
+      {printBooking && (
+        <BookingPrintModal
+          booking={printBooking}
+          products={products}
+          rooms={rooms}
+          locations={locations}
+          onClose={() => setPrintBooking(null)}
         />
       )}
     </div>

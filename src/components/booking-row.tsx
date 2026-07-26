@@ -34,6 +34,7 @@ export function BookingRow({
   onEdit,
   onAdvanceStatus,
   onDelete,
+  onPrint,
 }: {
   booking: Booking
   rooms: Room[]
@@ -43,6 +44,7 @@ export function BookingRow({
   onEdit: (b: Booking) => void
   onAdvanceStatus: (b: Booking) => void
   onDelete: (b: Booking) => void
+  onPrint: (b: Booking) => void
 }) {
   const b = booking
   const isAdmin = role === 'admin'
@@ -50,21 +52,27 @@ export function BookingRow({
   const count = b.products?.reduce((s, p) => s + p.qty, 0) ?? 0
   const loc = roomLocationName(rooms, locations, b.room)
 
-  const actions = locked ? (
-    <span className="text-xs text-neutral-500">🔒 gesperrt</span>
-  ) : (
+  const actions = (
     <div className="flex gap-1.5">
-      <button className="btn-secondary" onClick={() => onEdit(b)}>
-        ✎
+      {!locked && (
+        <button className="btn-secondary" onClick={() => onEdit(b)}>
+          ✎
+        </button>
+      )}
+      <button className="btn-secondary" onClick={() => onPrint(b)}>
+        🖶
       </button>
-      {b.status !== 'billed' && (
+      {!locked && b.status !== 'billed' && (
         <button className="btn-secondary" onClick={() => onAdvanceStatus(b)}>
           {nextStatusLabel(b.status)}
         </button>
       )}
-      <button className="btn-danger" onClick={() => onDelete(b)}>
-        ✕
-      </button>
+      {!locked && (
+        <button className="btn-danger" onClick={() => onDelete(b)}>
+          ✕
+        </button>
+      )}
+      {locked && <span className="text-xs text-neutral-500 self-center">🔒 gesperrt</span>}
     </div>
   )
 
