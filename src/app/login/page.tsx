@@ -50,7 +50,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold mb-1">
           Konferenz<span className="text-lime-400">Service</span>
         </h1>
-        <p className="text-xs text-neutral-500 font-mono mb-8">// Anmeldung</p>
+        <p className="text-xs text-neutral-500 font-mono mb-8">{'// Anmeldung'}</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

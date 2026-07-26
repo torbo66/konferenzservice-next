@@ -47,7 +47,7 @@ export default function PasswortAendernPage() {
       <div className="w-full max-w-sm">
         <h1 className="text-xl font-bold mb-1">Passwort ändern</h1>
         <p className="text-xs text-neutral-500 font-mono mb-8">
-          // Erforderlich vor dem ersten Zugriff
+          {'// Erforderlich vor dem ersten Zugriff'}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
