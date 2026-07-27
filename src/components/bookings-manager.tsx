@@ -6,6 +6,7 @@ import type { Booking, CostCenter, Location, Product, Profile, Room } from '@/li
 import { BookingRow, nextStatus } from './booking-row'
 import { BookingModal } from './booking-modal'
 import { BookingPrintModal } from './booking-print-modal'
+import { DatePicker } from './date-picker'
 
 interface Props {
   initialBookings: Booking[]
@@ -123,12 +124,7 @@ export function BookingsManager({
 
       {mode === 'list' && (
         <div className="flex flex-wrap gap-2 mb-4">
-          <input
-            type="date"
-            value={filterDate}
-            onChange={(e) => setFilterDate(e.target.value)}
-            className="input w-auto"
-          />
+          <DatePicker value={filterDate} onChange={setFilterDate} placeholder="Alle Daten" />
           <select value={filterRoom} onChange={(e) => setFilterRoom(e.target.value)} className="input w-auto">
             <option value="">Alle Räume</option>
             {rooms.map((r) => (
