@@ -24,6 +24,9 @@ export function ChipList({
   const [value, setValue] = useState('')
   const [busy, setBusy] = useState(false)
   const [search, setSearch] = useState('')
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editValue, setEditValue] = useState('')
+  const [renaming, setRenaming] = useState(false)
 
   function norm(s: string): string {
     return s
@@ -107,6 +110,59 @@ export function ChipList({
     setItems((prev) => prev.filter((i) => i.id !== item.id))
   }
 
+  function startEdit(item: Item) {
+    setEditingId(item.id)
+    setEditValue(item.name)
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditValue('')
+  }
+
+  async function confirmRename(item: Item) {
+    const name = editValue.trim()
+    if (!name) return
+    if (name === item.name) {
+      cancelEdit()
+      return
+    }
+    if (items.some((i) => i.id !== item.id && i.name.toLowerCase() === name.toLowerCase())) {
+      alert(title + ' existiert bereits.')
+      return
+    }
+    setRenaming(true)
+    try {
+      const { error } = await supabase.from(table).update({ name }).eq('id', item.id)
+      if (error) throw error
+
+      // Kaskade: verknuepfte Text-Spalten (category/costcenter) ueber die FK-Spalte
+      // (category_id/costcenter_id) mitziehen, damit keine Karteileichen entstehen.
+      if (table === 'categories') {
+        const { error: cascadeError } = await supabase
+          .from('products')
+          .update({ category: name })
+          .eq('category_id', item.id)
+        if (cascadeError) throw cascadeError
+      } else if (table === 'costcenters') {
+        const { error: cascadeError } = await supabase
+          .from('bookings')
+          .update({ costcenter: name })
+          .eq('costcenter_id', item.id)
+        if (cascadeError) throw cascadeError
+      }
+      // locations: kein Text-Feld anderswo (rooms/profiles verweisen per FK, keine Kaskade noetig)
+
+      setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, name } : i)))
+      cancelEdit()
+    } catch (e) {
+      alert('Umbenennen fehlgeschlagen.')
+      console.error(e)
+    } finally {
+      setRenaming(false)
+    }
+  }
+
   return (
     <div className="border border-neutral-200 dark:border-neutral-800 rounded">
       <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
@@ -136,20 +192,63 @@ export function ChipList({
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
-          {filteredItems.map((i) => (
-            <span
-              key={i.id}
-              className="inline-flex items-center gap-2 bg-neutral-200 dark:bg-neutral-800 rounded-full pl-3 pr-1.5 py-1 text-sm"
-            >
-              {i.name}
-              <button
-                onClick={() => remove(i)}
-                className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
+          {filteredItems.map((i) =>
+            editingId === i.id ? (
+              <span
+                key={i.id}
+                className="inline-flex items-center gap-1 bg-neutral-200 dark:bg-neutral-800 rounded-full pl-1 pr-1 py-1"
               >
-                ✕
-              </button>
-            </span>
-          ))}
+                <input
+                  autoFocus
+                  value={editValue}
+                  onChange={(e) => setEditValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') confirmRename(i)
+                    if (e.key === 'Escape') cancelEdit()
+                  }}
+                  className="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-full px-3 py-0.5 text-sm w-40"
+                  disabled={renaming}
+                />
+                <button
+                  onClick={() => confirmRename(i)}
+                  disabled={renaming}
+                  className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-lime-700 dark:text-lime-400"
+                  title="Speichern"
+                >
+                  ✓
+                </button>
+                <button
+                  onClick={cancelEdit}
+                  disabled={renaming}
+                  className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
+                  title="Abbrechen"
+                >
+                  ✕
+                </button>
+              </span>
+            ) : (
+              <span
+                key={i.id}
+                className="inline-flex items-center gap-2 bg-neutral-200 dark:bg-neutral-800 rounded-full pl-3 pr-1.5 py-1 text-sm"
+              >
+                {i.name}
+                <button
+                  onClick={() => startEdit(i)}
+                  className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
+                  title="Umbenennen"
+                >
+                  ✎
+                </button>
+                <button
+                  onClick={() => remove(i)}
+                  className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
+                  title="Löschen"
+                >
+                  ✕
+                </button>
+              </span>
+            )
+          )}
           {filteredItems.length === 0 && (
             <span className="text-xs text-neutral-400 dark:text-neutral-600">
               {items.length === 0 ? 'Noch keine Einträge.' : 'Keine Treffer für diese Suche.'}

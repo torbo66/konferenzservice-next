@@ -15,6 +15,9 @@ export function RoomsManager({
   const [rooms, setRooms] = useState(initialRooms)
   const [name, setName] = useState('')
   const [locationId, setLocationId] = useState<string>('')
+  const [editingId, setEditingId] = useState<number | null>(null)
+  const [editValue, setEditValue] = useState('')
+  const [renaming, setRenaming] = useState(false)
 
   async function addRoom() {
     const trimmed = name.trim()
@@ -59,6 +62,48 @@ export function RoomsManager({
     setRooms((prev) => prev.filter((r) => r.id !== room.id))
   }
 
+  function startEdit(room: Room) {
+    setEditingId(room.id)
+    setEditValue(room.name)
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditValue('')
+  }
+
+  async function confirmRename(room: Room) {
+    const trimmed = editValue.trim()
+    if (!trimmed) return
+    if (trimmed === room.name) {
+      cancelEdit()
+      return
+    }
+    if (rooms.some((r) => r.id !== room.id && r.name.toLowerCase() === trimmed.toLowerCase())) {
+      alert('Raumname existiert bereits.')
+      return
+    }
+    setRenaming(true)
+    try {
+      const { error } = await supabase.from('rooms').update({ name: trimmed }).eq('id', room.id)
+      if (error) throw error
+      // Kaskade: bookings.room (Text) ueber room_id (FK) mitziehen
+      const { error: cascadeError } = await supabase
+        .from('bookings')
+        .update({ room: trimmed })
+        .eq('room_id', room.id)
+      if (cascadeError) throw cascadeError
+
+      setRooms((prev) => prev.map((r) => (r.id === room.id ? { ...r, name: trimmed } : r)))
+      cancelEdit()
+    } catch (e) {
+      alert('Umbenennen fehlgeschlagen — Name evtl. bereits vergeben.')
+      console.error(e)
+    } finally {
+      setRenaming(false)
+    }
+  }
+
   return (
     <div className="border border-neutral-200 dark:border-neutral-800 rounded">
       <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
@@ -101,7 +146,23 @@ export function RoomsManager({
           <tbody>
             {rooms.map((r) => (
               <tr key={r.id} className="border-b border-neutral-100 dark:border-neutral-900">
-                <td className="py-2">{r.name}</td>
+                <td className="py-2">
+                  {editingId === r.id ? (
+                    <input
+                      autoFocus
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') confirmRename(r)
+                        if (e.key === 'Escape') cancelEdit()
+                      }}
+                      disabled={renaming}
+                      className="input w-auto min-w-[140px]"
+                    />
+                  ) : (
+                    r.name
+                  )}
+                </td>
                 <td className="py-2">
                   <select
                     value={r.location_id ?? ''}
@@ -116,10 +177,26 @@ export function RoomsManager({
                     ))}
                   </select>
                 </td>
-                <td className="py-2">
-                  <button className="btn-danger" onClick={() => removeRoom(r)}>
-                    ✕
-                  </button>
+                <td className="py-2 flex gap-1.5">
+                  {editingId === r.id ? (
+                    <>
+                      <button className="btn-secondary" onClick={() => confirmRename(r)} disabled={renaming}>
+                        ✓
+                      </button>
+                      <button className="btn-secondary" onClick={cancelEdit} disabled={renaming}>
+                        ✕
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button className="btn-secondary" onClick={() => startEdit(r)}>
+                        ✎
+                      </button>
+                      <button className="btn-danger" onClick={() => removeRoom(r)}>
+                        ✕
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
