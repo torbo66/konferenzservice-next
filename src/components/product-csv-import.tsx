@@ -24,7 +24,7 @@ export function ProductCsvImport({
     // Erst UTF-8 versuchen, bei Mojibake-Anzeichen (Ã.., ï¿½, Replacement-Char) auf
     // Windows-1252 zurueckfallen.
     const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buf)
-    const looksBroken = /\uFFFD|Ã[€-¿]|â€/.test(utf8Text)
+    const looksBroken = /\uFFFD|Ã„|Ã–|Ãœ|Ã¤|Ã¶|Ã¼|ÃŸ|Ã©|Ã¨|Ã¡|Ã³|â€/.test(utf8Text)
     if (looksBroken) {
       return new TextDecoder('windows-1252', { fatal: false }).decode(buf)
     }
