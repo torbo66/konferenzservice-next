@@ -42,12 +42,12 @@ export function QuickSelectManager({
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
         Schnellauswahl
       </div>
       <div className="p-4">
-        <div className="text-xs text-neutral-500 mb-3">
+        <div className="text-xs text-neutral-600 dark:text-neutral-500 mb-3">
           Produkte im Buchungsdialog als fixer Block oben.
           {!editable && ' Nur Admins können dies ändern.'}
         </div>
@@ -73,7 +73,7 @@ export function QuickSelectManager({
             return (
               <div
                 key={id}
-                className="flex items-center justify-between border border-neutral-800 rounded px-3 py-2 text-sm"
+                className="flex items-center justify-between border border-neutral-200 dark:border-neutral-800 rounded px-3 py-2 text-sm"
               >
                 <span>{p.name}</span>
                 {editable && (
@@ -97,7 +97,7 @@ export function QuickSelectManager({
             )
           })}
           {quickSelect.length === 0 && (
-            <div className="text-xs text-neutral-600">Keine Schnellauswahl konfiguriert.</div>
+            <div className="text-xs text-neutral-400 dark:text-neutral-600">Keine Schnellauswahl konfiguriert.</div>
           )}
         </div>
       </div>

@@ -137,7 +137,7 @@ export function ProductCsvImport({
       {result && (
         <div
           className={`mt-3 text-xs font-mono border rounded px-3 py-2 ${
-            result.ok ? 'border-lime-600 text-lime-400' : 'border-red-800 text-red-400'
+            result.ok ? 'border-lime-600 text-lime-700 dark:text-lime-400' : 'border-red-300 dark:border-red-800 text-red-600 dark:text-red-400'
           }`}
         >
           {result.msg}

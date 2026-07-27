@@ -16,7 +16,7 @@ export function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-xs text-neutral-400 hover:text-neutral-100 border border-neutral-700 rounded px-3 py-1.5"
+      className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 border border-neutral-300 dark:border-neutral-700 rounded px-3 py-1.5"
     >
       Abmelden
     </button>

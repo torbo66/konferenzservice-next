@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Role } from '@/lib/types'
 import { LogoutButton } from './logout-button'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 interface NavItem {
   label: string
@@ -38,10 +39,10 @@ export function Sidebar({
   const items = NAV_ITEMS.filter((i) => i.roles.includes(role))
 
   return (
-    <aside className="w-56 shrink-0 border-r border-neutral-800 flex flex-col bg-neutral-950">
+    <aside className="w-56 shrink-0 border-r border-neutral-200 dark:border-neutral-800 flex flex-col bg-neutral-50 dark:bg-neutral-950">
       <div className="px-5 py-6">
         <h1 className="text-lg font-bold">
-          Konferenz<span className="text-lime-400">Service</span>
+          Konferenz<span className="text-lime-700 dark:text-lime-400">Service</span>
         </h1>
       </div>
 
@@ -53,8 +54,8 @@ export function Sidebar({
               href={item.href}
               className={`block px-3 py-2 rounded text-sm ${
                 pathname === item.href
-                  ? 'bg-neutral-800 text-lime-400'
-                  : 'text-neutral-300 hover:bg-neutral-900'
+                  ? 'bg-neutral-200 dark:bg-neutral-800 text-lime-700 dark:text-lime-400'
+                  : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-900'
               }`}
             >
               {item.label}
@@ -62,11 +63,11 @@ export function Sidebar({
           ) : (
             <div
               key={item.label}
-              className="flex items-center justify-between px-3 py-2 rounded text-sm text-neutral-600 cursor-not-allowed"
+              className="flex items-center justify-between px-3 py-2 rounded text-sm text-neutral-400 dark:text-neutral-600 cursor-not-allowed"
               title="Noch nicht verfügbar"
             >
               {item.label}
-              <span className="text-[10px] border border-neutral-800 rounded px-1.5 py-0.5">
+              <span className="text-[10px] border border-neutral-200 dark:border-neutral-800 rounded px-1.5 py-0.5">
                 bald
               </span>
             </div>
@@ -74,13 +75,14 @@ export function Sidebar({
         )}
       </nav>
 
-      <div className="px-5 py-4 border-t border-neutral-800 text-xs text-neutral-500 font-mono">
+      <div className="px-5 py-4 border-t border-neutral-200 dark:border-neutral-800 text-xs text-neutral-600 dark:text-neutral-500 font-mono">
         {displayName} ({role}) · {locationLabel}
-        <div className="mt-2">
+        <div className="mt-2 flex items-center gap-2">
           <LogoutButton />
+          <ThemeToggle />
         </div>
         {appVersion && (
-          <div className="mt-3 text-[10px] text-neutral-600">
+          <div className="mt-3 text-[10px] text-neutral-400 dark:text-neutral-600">
             {appVersion}
             <br />
             {appBuildDate}

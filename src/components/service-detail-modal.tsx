@@ -57,19 +57,19 @@ export function ServiceDetailModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 print:static print:bg-white print:p-0">
-      <div className="bg-neutral-900 border border-neutral-700 rounded w-full max-w-lg max-h-[90vh] flex flex-col print:bg-white print:text-black print:border-0">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800 print:border-black">
+      <div className="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded w-full max-w-lg max-h-[90vh] flex flex-col print:bg-white print:text-black print:border-0">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200 dark:border-neutral-800 print:border-black">
           <h2 className="font-bold">{booking.room}</h2>
-          <button onClick={onClose} className="text-neutral-400 print:hidden">
+          <button onClick={onClose} className="text-neutral-500 dark:text-neutral-400 print:hidden">
             ✕
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-5 print-area">
           <div className="flex gap-2 mb-4">
-            <span className="text-xs px-2 py-1 rounded bg-neutral-700">
+            <span className="text-xs px-2 py-1 rounded bg-neutral-200 dark:bg-neutral-700">
               {STATUS_LABEL[booking.status] ?? booking.status}
             </span>
-            <span className="text-xs px-2 py-1 rounded bg-lime-500/20 text-lime-400">
+            <span className="text-xs px-2 py-1 rounded bg-lime-500/20 text-lime-700 dark:text-lime-400">
               {DELIVERY_LABEL[deliveryStatus]}
             </span>
           </div>
@@ -84,19 +84,19 @@ export function ServiceDetailModal({
 
           {booking.note && (
             <div className="mb-4">
-              <div className="text-xs uppercase text-neutral-500 mb-1">Bemerkung</div>
+              <div className="text-xs uppercase text-neutral-600 dark:text-neutral-500 mb-1">Bemerkung</div>
               <div className="text-sm">{booking.note}</div>
             </div>
           )}
 
-          <div className="text-xs uppercase text-neutral-500 mb-2">Produkte</div>
+          <div className="text-xs uppercase text-neutral-600 dark:text-neutral-500 mb-2">Produkte</div>
           {lines.length === 0 ? (
-            <div className="text-sm text-neutral-600">Keine Produkte in dieser Buchung.</div>
+            <div className="text-sm text-neutral-400 dark:text-neutral-600">Keine Produkte in dieser Buchung.</div>
           ) : (
             lines.map(({ ordered, product }) => (
               <div
                 key={ordered.id}
-                className="flex justify-between py-2 border-b border-neutral-800 text-sm print:border-neutral-300"
+                className="flex justify-between py-2 border-b border-neutral-200 dark:border-neutral-800 text-sm print:border-neutral-300"
               >
                 <span>{product!.name}</span>
                 <span className="font-mono font-bold">
@@ -106,7 +106,7 @@ export function ServiceDetailModal({
             ))
           )}
         </div>
-        <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-800 print:hidden">
+        <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-200 dark:border-neutral-800 print:hidden">
           <button className="btn-secondary" onClick={print}>
             Drucken
           </button>
@@ -132,7 +132,7 @@ export function ServiceDetailModal({
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="text-[11px] uppercase text-neutral-500 mb-0.5">{label}</div>
+      <div className="text-[11px] uppercase text-neutral-600 dark:text-neutral-500 mb-0.5">{label}</div>
       <div className="font-semibold">{value}</div>
     </div>
   )

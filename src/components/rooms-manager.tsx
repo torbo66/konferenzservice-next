@@ -60,8 +60,8 @@ export function RoomsManager({
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
         Konferenzräume
       </div>
       <div className="p-4">
@@ -92,7 +92,7 @@ export function RoomsManager({
 
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-left text-xs uppercase text-neutral-500 border-b border-neutral-800">
+            <tr className="text-left text-xs uppercase text-neutral-600 dark:text-neutral-500 border-b border-neutral-200 dark:border-neutral-800">
               <th className="py-2 font-medium">Raum</th>
               <th className="py-2 font-medium">Standort</th>
               <th className="py-2 font-medium">Aktionen</th>
@@ -100,7 +100,7 @@ export function RoomsManager({
           </thead>
           <tbody>
             {rooms.map((r) => (
-              <tr key={r.id} className="border-b border-neutral-900">
+              <tr key={r.id} className="border-b border-neutral-100 dark:border-neutral-900">
                 <td className="py-2">{r.name}</td>
                 <td className="py-2">
                   <select
@@ -125,7 +125,7 @@ export function RoomsManager({
             ))}
             {rooms.length === 0 && (
               <tr>
-                <td colSpan={3} className="py-6 text-center text-neutral-600">
+                <td colSpan={3} className="py-6 text-center text-neutral-400 dark:text-neutral-600">
                   Noch keine Räume angelegt.
                 </td>
               </tr>

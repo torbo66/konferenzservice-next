@@ -8,9 +8,9 @@ type UserRow = Profile
 
 const ROLE_LABEL: Record<Role, string> = { admin: 'admin', user: 'user', service: 'service' }
 const ROLE_CLASS: Record<Role, string> = {
-  admin: 'bg-lime-500/20 text-lime-400',
+  admin: 'bg-lime-500/20 text-lime-700 dark:text-lime-400',
   user: 'bg-amber-500/20 text-amber-400',
-  service: 'bg-neutral-700 text-neutral-300',
+  service: 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300',
 }
 
 export function UsersManager({
@@ -137,14 +137,14 @@ export function UsersManager({
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
         Benutzer
       </div>
       <div className="p-4">
         <table className="w-full text-sm table-fixed">
           <thead>
-            <tr className="text-left text-xs uppercase text-neutral-500 border-b border-neutral-800">
+            <tr className="text-left text-xs uppercase text-neutral-600 dark:text-neutral-500 border-b border-neutral-200 dark:border-neutral-800">
               <th className="py-2 font-medium w-[16%]">Benutzername</th>
               <th className="py-2 font-medium w-[18%]">Vorname</th>
               <th className="py-2 font-medium w-[18%]">Nachname</th>
@@ -155,7 +155,7 @@ export function UsersManager({
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.id} className="border-b border-neutral-900">
+              <tr key={u.id} className="border-b border-neutral-100 dark:border-neutral-900">
                 <td className="py-2">{u.username}</td>
                 <td className="py-2">{u.vorname}</td>
                 <td className="py-2">{u.nachname}</td>
@@ -166,7 +166,7 @@ export function UsersManager({
                 </td>
                 <td className="py-2">
                   {u.role === 'admin' ? (
-                    <span className="text-xs text-neutral-500">Alle</span>
+                    <span className="text-xs text-neutral-600 dark:text-neutral-500">Alle</span>
                   ) : (
                     <select
                       value={u.location_id ?? ''}
@@ -203,10 +203,10 @@ export function UsersManager({
 
       {modalOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-900 border border-neutral-700 rounded w-full max-w-md">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded w-full max-w-md">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200 dark:border-neutral-800">
               <h2 className="font-bold">{editing ? 'Benutzer bearbeiten' : 'Benutzer hinzufügen'}</h2>
-              <button onClick={() => setModalOpen(false)} className="text-neutral-400">
+              <button onClick={() => setModalOpen(false)} className="text-neutral-500 dark:text-neutral-400">
                 ✕
               </button>
             </div>
@@ -216,7 +216,7 @@ export function UsersManager({
               <LabeledInput label="Benutzername (Login)" value={username} onChange={setUsername} />
               <LabeledInput label="E-Mail" value={email} onChange={setEmail} type="email" />
               <div>
-                <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+                <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
                   Rolle
                 </label>
                 <select value={role} onChange={(e) => setRole(e.target.value as Role)} className="input">
@@ -226,7 +226,7 @@ export function UsersManager({
                 </select>
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+                <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
                   Standort
                 </label>
                 <select
@@ -243,13 +243,13 @@ export function UsersManager({
                 </select>
               </div>
               {!editing && (
-                <div className="text-xs text-neutral-500">
+                <div className="text-xs text-neutral-600 dark:text-neutral-500">
                   Default-Passwort wird automatisch vergeben (EinfachZweifach + aktuelles Jahr),
                   Nutzer muss es beim ersten Login ändern.
                 </div>
               )}
             </div>
-            <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-800">
+            <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-200 dark:border-neutral-800">
               <button className="btn-secondary" onClick={() => setModalOpen(false)}>
                 Abbrechen
               </button>
@@ -277,7 +277,7 @@ function LabeledInput({
 }) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">{label}</label>
+      <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">{label}</label>
       <input
         type={type}
         value={value}

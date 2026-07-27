@@ -7,10 +7,10 @@ const STATUS_LABEL: Record<string, string> = {
   billed: 'Abgerechnet',
 }
 const STATUS_CLASS: Record<string, string> = {
-  pending: 'bg-neutral-700 text-neutral-200',
-  active: 'bg-lime-500/20 text-lime-400',
+  pending: 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200',
+  active: 'bg-lime-500/20 text-lime-700 dark:text-lime-400',
   done: 'bg-blue-500/20 text-blue-400',
-  billed: 'bg-neutral-600 text-neutral-300',
+  billed: 'bg-neutral-300 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300',
 }
 
 export function nextStatus(s: string) {
@@ -72,16 +72,16 @@ export function BookingRow({
           ✕
         </button>
       )}
-      {locked && <span className="text-xs text-neutral-500 self-center">🔒 gesperrt</span>}
+      {locked && <span className="text-xs text-neutral-600 dark:text-neutral-500 self-center">🔒 gesperrt</span>}
     </div>
   )
 
   if (compact) {
     return (
-      <tr className="border-b border-neutral-800">
+      <tr className="border-b border-neutral-200 dark:border-neutral-800">
         <td className="py-2 px-2">{b.room}</td>
-        <td className="py-2 px-2 font-mono text-xs text-neutral-400">{loc}</td>
-        <td className="py-2 px-2 font-mono text-xs text-neutral-400">
+        <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{loc}</td>
+        <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">
           {b.date} {b.time_from?.slice(0, 5)}–{b.time_to?.slice(0, 5)}
         </td>
         <td className="py-2 px-2">{b.costcenter}</td>
@@ -98,13 +98,13 @@ export function BookingRow({
   }
 
   return (
-    <tr className="border-b border-neutral-800">
-      <td className="py-2 px-2 font-mono text-xs text-neutral-500">#{b.id}</td>
+    <tr className="border-b border-neutral-200 dark:border-neutral-800">
+      <td className="py-2 px-2 font-mono text-xs text-neutral-600 dark:text-neutral-500">#{b.id}</td>
       <td className="py-2 px-2">{b.room}</td>
-      <td className="py-2 px-2 font-mono text-xs text-neutral-400">{loc}</td>
-      <td className="py-2 px-2 font-mono text-xs text-neutral-400">{b.date}</td>
-      <td className="py-2 px-2 font-mono text-xs text-neutral-400">{b.time_from?.slice(0, 5)}</td>
-      <td className="py-2 px-2 font-mono text-xs text-neutral-400">{b.time_to?.slice(0, 5)}</td>
+      <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{loc}</td>
+      <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{b.date}</td>
+      <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{b.time_from?.slice(0, 5)}</td>
+      <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{b.time_to?.slice(0, 5)}</td>
       <td className="py-2 px-2">{b.costcenter}</td>
       <td className="py-2 px-2 font-mono text-xs">{b.participants}</td>
       <td className="py-2 px-2 font-mono text-xs">{count} Pos.</td>

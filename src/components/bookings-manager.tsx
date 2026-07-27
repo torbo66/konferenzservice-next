@@ -115,7 +115,7 @@ export function BookingsManager({
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <div className="text-sm text-neutral-500">{filtered.length} Buchung(en)</div>
+        <div className="text-sm text-neutral-600 dark:text-neutral-500">{filtered.length} Buchung(en)</div>
         <button className="btn-primary" onClick={openCreate}>
           + Neue Buchung
         </button>
@@ -159,10 +159,10 @@ export function BookingsManager({
         </div>
       )}
 
-      <div className="border border-neutral-800 rounded overflow-x-auto">
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-neutral-800 text-left text-xs uppercase text-neutral-500">
+            <tr className="border-b border-neutral-200 dark:border-neutral-800 text-left text-xs uppercase text-neutral-600 dark:text-neutral-500">
               {headers.map((h) => (
                 <th key={h} className="py-2 px-2 font-medium">
                   {h}
@@ -173,7 +173,7 @@ export function BookingsManager({
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={headers.length} className="py-8 text-center text-neutral-600">
+                <td colSpan={headers.length} className="py-8 text-center text-neutral-400 dark:text-neutral-600">
                   Keine Buchungen gefunden.
                 </td>
               </tr>

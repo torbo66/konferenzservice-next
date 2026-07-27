@@ -126,7 +126,7 @@ export function CalendarView({
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold">
-          Kal<span className="text-lime-400">ender</span>
+          Kal<span className="text-lime-700 dark:text-lime-400">ender</span>
         </h1>
         <div className="flex items-center gap-2">
           <button className="btn-secondary" onClick={() => setWeekOffset((w) => w - 1)}>
@@ -148,7 +148,7 @@ export function CalendarView({
         </div>
       </div>
 
-      <div className="grid grid-cols-[40px_repeat(7,1fr)] gap-2 mb-2 text-xs uppercase text-neutral-500 text-center">
+      <div className="grid grid-cols-[40px_repeat(7,1fr)] gap-2 mb-2 text-xs uppercase text-neutral-600 dark:text-neutral-500 text-center">
         <div></div>
         {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((d) => (
           <div key={d}>{d}</div>
@@ -158,7 +158,7 @@ export function CalendarView({
       <div className="space-y-2 mb-8">
         {weekStarts.map((weekStart) => (
           <div key={weekStart.toISOString()} className="grid grid-cols-[40px_repeat(7,1fr)] gap-2 items-center">
-            <div className="text-xs font-mono text-neutral-500 text-center font-semibold">
+            <div className="text-xs font-mono text-neutral-600 dark:text-neutral-500 text-center font-semibold">
               KW {isoWeekNumber(weekStart)}
             </div>
             {Array.from({ length: 7 }).map((_, i) => {
@@ -173,7 +173,7 @@ export function CalendarView({
                   <button
                     onClick={() => setSelected(dateStr)}
                     className={`relative w-9 h-9 rounded-full flex items-center justify-center text-sm font-mono transition-colors
-                      ${count > 0 ? 'bg-lime-400 text-black font-semibold' : 'hover:bg-neutral-800'}
+                      ${count > 0 ? 'bg-lime-400 text-black font-semibold' : 'hover:bg-neutral-200 dark:hover:bg-neutral-800'}
                       ${isToday ? 'ring-1 ring-cyan-400' : ''}
                       ${isSelected ? 'ring-2 ring-white' : ''}
                     `}
@@ -192,8 +192,8 @@ export function CalendarView({
         ))}
       </div>
 
-      <div className="border border-neutral-800 rounded overflow-x-auto">
-        <div className="px-4 py-3 border-b border-neutral-800 text-sm font-medium">
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded overflow-x-auto">
+        <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-sm font-medium">
           {selected
             ? 'Aufträge am ' +
               new Date(selected).toLocaleDateString('de-DE', {
@@ -206,7 +206,7 @@ export function CalendarView({
         </div>
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-neutral-800 text-left text-xs uppercase text-neutral-500">
+            <tr className="border-b border-neutral-200 dark:border-neutral-800 text-left text-xs uppercase text-neutral-600 dark:text-neutral-500">
               {['Raum', 'Standort', 'Datum / Zeit', 'Kostenstelle', 'Teilnehmer', 'Produkte', 'Status', 'Aktionen'].map(
                 (h) => (
                   <th key={h} className="py-2 px-2 font-medium">
@@ -219,13 +219,13 @@ export function CalendarView({
           <tbody>
             {!selected ? (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-neutral-600">
+                <td colSpan={8} className="py-8 text-center text-neutral-400 dark:text-neutral-600">
                   Datum im Kalender auswählen.
                 </td>
               </tr>
             ) : dayBookings.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-neutral-600">
+                <td colSpan={8} className="py-8 text-center text-neutral-400 dark:text-neutral-600">
                   Keine Aufträge an diesem Tag.
                 </td>
               </tr>

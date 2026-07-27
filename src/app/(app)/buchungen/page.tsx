@@ -31,7 +31,7 @@ export default async function BuchungenPage() {
   return (
     <div>
       <h1 className="text-xl font-bold mb-6">
-        Buch<span className="text-lime-400">ungen</span>
+        Buch<span className="text-lime-700 dark:text-lime-400">ungen</span>
       </h1>
       <BookingsManager
         initialBookings={bookings}

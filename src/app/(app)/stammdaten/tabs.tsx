@@ -15,15 +15,15 @@ const TABS = [
 export function StammdatenTabs() {
   const pathname = usePathname()
   return (
-    <div className="flex gap-1 flex-wrap border-b border-neutral-800 pb-2">
+    <div className="flex gap-1 flex-wrap border-b border-neutral-200 dark:border-neutral-800 pb-2">
       {TABS.map((tab) => (
         <Link
           key={tab.href}
           href={tab.href}
           className={`px-3 py-1.5 rounded text-sm ${
             pathname === tab.href
-              ? 'bg-neutral-800 text-lime-400'
-              : 'text-neutral-400 hover:bg-neutral-900'
+              ? 'bg-neutral-200 dark:bg-neutral-800 text-lime-700 dark:text-lime-400'
+              : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900'
           }`}
         >
           {tab.label}

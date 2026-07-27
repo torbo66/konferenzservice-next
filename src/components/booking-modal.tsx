@@ -145,10 +145,10 @@ export function BookingModal({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-      <div className="bg-neutral-900 border border-neutral-700 rounded w-full max-w-4xl max-h-[90vh] flex flex-col">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
+      <div className="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded w-full max-w-4xl max-h-[90vh] flex flex-col">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200 dark:border-neutral-800">
           <h2 className="font-bold">{editing ? 'Buchung bearbeiten' : 'Neue Buchung'}</h2>
-          <button onClick={onClose} className="text-neutral-400 hover:text-neutral-100">
+          <button onClick={onClose} className="text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100">
             ✕
           </button>
         </div>
@@ -225,12 +225,12 @@ export function BookingModal({
               />
             </Field>
 
-            <div className="border border-neutral-800 rounded p-3">
-              <div className="text-xs uppercase text-neutral-500 mb-2">
+            <div className="border border-neutral-200 dark:border-neutral-800 rounded p-3">
+              <div className="text-xs uppercase text-neutral-600 dark:text-neutral-500 mb-2">
                 Ausgewählte Produkte ({addedProducts.reduce((s, x) => s + x.qty, 0)})
               </div>
               {addedProducts.length === 0 ? (
-                <div className="text-xs text-neutral-600">Noch keine Produkte ausgewählt.</div>
+                <div className="text-xs text-neutral-400 dark:text-neutral-600">Noch keine Produkte ausgewählt.</div>
               ) : (
                 <div className="space-y-1">
                   {addedProducts.map(({ product, qty: q }) => (
@@ -238,7 +238,7 @@ export function BookingModal({
                       <span>
                         {product!.name} × {q}
                       </span>
-                      <span className="text-neutral-400 font-mono">
+                      <span className="text-neutral-500 dark:text-neutral-400 font-mono">
                         {(product!.price * q).toFixed(2)} €
                       </span>
                     </div>
@@ -247,7 +247,7 @@ export function BookingModal({
               )}
             </div>
 
-            {error && <div className="text-red-500 text-xs font-mono">{error}</div>}
+            {error && <div className="text-red-600 dark:text-red-500 text-xs font-mono">{error}</div>}
           </div>
 
           <div>
@@ -275,7 +275,7 @@ export function BookingModal({
             </div>
             <div className="space-y-1 max-h-[420px] overflow-y-auto">
               {visibleProducts.length === 0 ? (
-                <div className="text-xs text-neutral-600 py-4 text-center">
+                <div className="text-xs text-neutral-400 dark:text-neutral-600 py-4 text-center">
                   Keine Produkte gefunden.
                 </div>
               ) : (
@@ -285,18 +285,18 @@ export function BookingModal({
                   return (
                     <div
                       key={p.id}
-                      className="flex items-center justify-between border border-neutral-800 rounded px-3 py-2"
+                      className="flex items-center justify-between border border-neutral-200 dark:border-neutral-800 rounded px-3 py-2"
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <button
                           onClick={() => toggleFavorite(p.id)}
-                          className={isFav ? 'text-amber-400' : 'text-neutral-700'}
+                          className={isFav ? 'text-amber-400' : 'text-neutral-300 dark:text-neutral-700'}
                         >
                           {isFav ? '★' : '☆'}
                         </button>
                         <div className="min-w-0">
                           <div className="text-sm truncate">{p.name}</div>
-                          <div className="text-xs text-neutral-500">
+                          <div className="text-xs text-neutral-600 dark:text-neutral-500">
                             {p.category} · {p.price.toFixed(2)} € / {p.unit}
                           </div>
                         </div>
@@ -304,14 +304,14 @@ export function BookingModal({
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => changeQty(p.id, -1)}
-                          className="w-7 h-7 border border-neutral-700 rounded"
+                          className="w-7 h-7 border border-neutral-300 dark:border-neutral-700 rounded"
                         >
                           −
                         </button>
                         <div className="w-6 text-center font-mono">{q}</div>
                         <button
                           onClick={() => changeQty(p.id, 1)}
-                          className="w-7 h-7 border border-neutral-700 rounded"
+                          className="w-7 h-7 border border-neutral-300 dark:border-neutral-700 rounded"
                         >
                           +
                         </button>
@@ -324,7 +324,7 @@ export function BookingModal({
           </div>
         </div>
 
-        <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-800">
+        <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-200 dark:border-neutral-800">
           <button onClick={onClose} className="btn-secondary">
             Abbrechen
           </button>
@@ -340,7 +340,7 @@ export function BookingModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+      <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
         {label}
       </label>
       {children}

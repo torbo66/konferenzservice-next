@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -62,12 +63,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-950 text-neutral-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 px-4 relative">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold mb-1">
-          Konferenz<span className="text-lime-400">Service</span>
+          Konferenz<span className="text-lime-700 dark:text-lime-400">Service</span>
         </h1>
-        <p className="text-xs text-neutral-500 font-mono mb-8">
+        <p className="text-xs text-neutral-600 dark:text-neutral-500 font-mono mb-8">
           {version ? (
             <>
               {'// Dashboard ' + version}
@@ -81,7 +85,7 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+            <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
               Benutzername
             </label>
             <input
@@ -89,11 +93,11 @@ export default function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               autoComplete="username"
-              className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-lime-400"
+              className="w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-lime-400"
             />
           </div>
           <div>
-            <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+            <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
               Passwort
             </label>
             <input
@@ -101,12 +105,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
-              className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-lime-400"
+              className="w-full bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded px-3 py-2 text-sm focus:outline-none focus:border-lime-400"
             />
           </div>
 
           {error && (
-            <div className="text-red-500 text-xs font-mono">{error}</div>
+            <div className="text-red-600 dark:text-red-500 text-xs font-mono">{error}</div>
           )}
 
           <button

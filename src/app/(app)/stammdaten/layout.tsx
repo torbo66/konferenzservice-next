@@ -14,7 +14,7 @@ export default async function StammdatenLayout({
   return (
     <div>
       <h1 className="text-xl font-bold mb-4">
-        Stamm<span className="text-lime-400">daten</span>
+        Stamm<span className="text-lime-700 dark:text-lime-400">daten</span>
       </h1>
       <StammdatenTabs />
       <div className="mt-6">{children}</div>

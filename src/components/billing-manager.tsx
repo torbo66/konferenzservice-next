@@ -11,10 +11,10 @@ const STATUS_LABEL: Record<string, string> = {
   billed: 'Abgerechnet',
 }
 const STATUS_CLASS: Record<string, string> = {
-  pending: 'bg-neutral-700 text-neutral-200',
-  active: 'bg-lime-500/20 text-lime-400',
+  pending: 'bg-neutral-200 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-200',
+  active: 'bg-lime-500/20 text-lime-700 dark:text-lime-400',
   done: 'bg-amber-500/20 text-amber-400',
-  billed: 'bg-neutral-600 text-neutral-300',
+  billed: 'bg-neutral-300 dark:bg-neutral-600 text-neutral-700 dark:text-neutral-300',
 }
 
 export function BillingManager({
@@ -64,7 +64,7 @@ export function BillingManager({
   return (
     <div>
       <h1 className="text-xl font-bold mb-6">
-        Ab<span className="text-lime-400">rechnung</span>
+        Ab<span className="text-lime-700 dark:text-lime-400">rechnung</span>
       </h1>
 
       <div className="flex gap-2 mb-4">
@@ -81,10 +81,10 @@ export function BillingManager({
         />
       </div>
 
-      <div className="border border-neutral-800 rounded overflow-x-auto">
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-neutral-800 text-left text-xs uppercase text-neutral-500">
+            <tr className="border-b border-neutral-200 dark:border-neutral-800 text-left text-xs uppercase text-neutral-600 dark:text-neutral-500">
               {['ID', 'Raum', 'Datum', 'Kostenstelle', 'Best. Gesamt', 'Status', 'Aktionen'].map((h) => (
                 <th key={h} className="py-2 px-2 font-medium">
                   {h}
@@ -95,7 +95,7 @@ export function BillingManager({
           <tbody>
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-8 text-center text-neutral-600">
+                <td colSpan={7} className="py-8 text-center text-neutral-400 dark:text-neutral-600">
                   Keine Einträge.
                 </td>
               </tr>
@@ -103,14 +103,14 @@ export function BillingManager({
               filtered.map((b) => {
                 const total = b.status === 'billed' ? b.billed_total ?? 0 : totalOrdered(b)
                 return (
-                  <tr key={b.id} className="border-b border-neutral-900">
-                    <td className="py-2 px-2 font-mono text-xs text-neutral-500">#{b.id}</td>
+                  <tr key={b.id} className="border-b border-neutral-100 dark:border-neutral-900">
+                    <td className="py-2 px-2 font-mono text-xs text-neutral-600 dark:text-neutral-500">#{b.id}</td>
                     <td className="py-2 px-2">{b.room}</td>
-                    <td className="py-2 px-2 font-mono text-xs text-neutral-400">{b.date}</td>
+                    <td className="py-2 px-2 font-mono text-xs text-neutral-500 dark:text-neutral-400">{b.date}</td>
                     <td className="py-2 px-2">{b.costcenter}</td>
                     <td className="py-2 px-2 font-mono text-xs">
                       {b.status === 'billed' ? (
-                        <span className="text-lime-400">{total.toFixed(2)} €</span>
+                        <span className="text-lime-700 dark:text-lime-400">{total.toFixed(2)} €</span>
                       ) : (
                         `${total.toFixed(2)} €`
                       )}
@@ -132,7 +132,7 @@ export function BillingManager({
                         </button>
                       )}
                       {b.status === 'billed' && !isAdmin && (
-                        <span className="text-xs text-neutral-500">🔒 gesperrt</span>
+                        <span className="text-xs text-neutral-600 dark:text-neutral-500">🔒 gesperrt</span>
                       )}
                     </td>
                   </tr>

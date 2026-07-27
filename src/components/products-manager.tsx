@@ -122,8 +122,8 @@ export function ProductsManager({
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400 flex items-center justify-between">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400 flex items-center justify-between">
         <span>Produkte</span>
         <ProductCsvImport
           categories={categories}
@@ -143,7 +143,7 @@ export function ProductsManager({
         />
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-left text-xs uppercase text-neutral-500 border-b border-neutral-800">
+            <tr className="text-left text-xs uppercase text-neutral-600 dark:text-neutral-500 border-b border-neutral-200 dark:border-neutral-800">
               <th className="py-2 font-medium">PLU</th>
               <th className="py-2 font-medium">Name</th>
               <th className="py-2 font-medium">Kategorie</th>
@@ -155,19 +155,19 @@ export function ProductsManager({
           </thead>
           <tbody>
             {filteredProducts.map((p) => (
-              <tr key={p.id} className="border-b border-neutral-900">
-                <td className="py-2 font-mono text-xs text-neutral-500">{p.plu}</td>
+              <tr key={p.id} className="border-b border-neutral-100 dark:border-neutral-900">
+                <td className="py-2 font-mono text-xs text-neutral-600 dark:text-neutral-500">{p.plu}</td>
                 <td className="py-2">{p.name}</td>
                 <td className="py-2">{p.category}</td>
-                <td className="py-2 text-neutral-400">{p.unit}</td>
+                <td className="py-2 text-neutral-500 dark:text-neutral-400">{p.unit}</td>
                 <td className="py-2 font-mono">{p.price.toFixed(2)} €</td>
                 <td className="py-2">
                   {p.inactive ? (
-                    <span className="text-xs px-2 py-0.5 rounded bg-neutral-700 text-neutral-400">
+                    <span className="text-xs px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-700 text-neutral-500 dark:text-neutral-400">
                       Inaktiv
                     </span>
                   ) : (
-                    <span className="text-xs px-2 py-0.5 rounded bg-lime-500/20 text-lime-400">
+                    <span className="text-xs px-2 py-0.5 rounded bg-lime-500/20 text-lime-700 dark:text-lime-400">
                       Aktiv
                     </span>
                   )}
@@ -184,7 +184,7 @@ export function ProductsManager({
             ))}
             {filteredProducts.length === 0 && (
               <tr>
-                <td colSpan={7} className="py-6 text-center text-neutral-600">
+                <td colSpan={7} className="py-6 text-center text-neutral-400 dark:text-neutral-600">
                   {products.length === 0
                     ? 'Noch keine Produkte angelegt.'
                     : 'Keine Treffer für diese Suche.'}
@@ -200,10 +200,10 @@ export function ProductsManager({
 
       {modalOpen && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-900 border border-neutral-700 rounded w-full max-w-md">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-800">
+          <div className="bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded w-full max-w-md">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-200 dark:border-neutral-800">
               <h2 className="font-bold">{editing ? 'Produkt bearbeiten' : 'Produkt hinzufügen'}</h2>
-              <button onClick={() => setModalOpen(false)} className="text-neutral-400">
+              <button onClick={() => setModalOpen(false)} className="text-neutral-500 dark:text-neutral-400">
                 ✕
               </button>
             </div>
@@ -231,7 +231,7 @@ export function ProductsManager({
                   <input value={price} onChange={(e) => setPrice(e.target.value)} className="input" />
                 </Field>
               </div>
-              <label className="flex items-center gap-2 text-sm text-neutral-300">
+              <label className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
                 <input
                   type="checkbox"
                   checked={inactive}
@@ -240,7 +240,7 @@ export function ProductsManager({
                 Inaktiv (im Buchungsdialog ausgeblendet)
               </label>
             </div>
-            <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-800">
+            <div className="flex justify-end gap-2 px-5 py-4 border-t border-neutral-200 dark:border-neutral-800">
               <button className="btn-secondary" onClick={() => setModalOpen(false)}>
                 Abbrechen
               </button>
@@ -258,7 +258,7 @@ export function ProductsManager({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">{label}</label>
+      <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">{label}</label>
       {children}
     </div>
   )

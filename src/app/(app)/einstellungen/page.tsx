@@ -20,7 +20,7 @@ export default async function EinstellungenPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-bold mb-2">
-        Ein<span className="text-lime-400">stellungen</span>
+        Ein<span className="text-lime-700 dark:text-lime-400">stellungen</span>
       </h1>
 
       <SessionSetting initialTimeout={settings.timeout} editable={isAdmin} />
@@ -30,13 +30,13 @@ export default async function EinstellungenPage() {
         editable={isAdmin}
       />
 
-      <div className="border border-neutral-800 rounded">
-        <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+      <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+        <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
           Daten
         </div>
         <div className="p-4">
           <CsvExportButton bookings={bookings} />
-          <div className="text-xs text-neutral-500 mt-3">
+          <div className="text-xs text-neutral-600 dark:text-neutral-500 mt-3">
             Daten werden in Supabase gespeichert und sind für alle Nutzer verfügbar.
           </div>
         </div>

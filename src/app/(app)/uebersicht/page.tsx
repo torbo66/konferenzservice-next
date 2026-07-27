@@ -51,9 +51,9 @@ export default async function UebersichtPage() {
   return (
     <div>
       <h1 className="text-xl font-bold mb-1">
-        Über<span className="text-lime-400">sicht</span>
+        Über<span className="text-lime-700 dark:text-lime-400">sicht</span>
       </h1>
-      <p className="text-xs text-neutral-500 font-mono mb-6">
+      <p className="text-xs text-neutral-600 dark:text-neutral-500 font-mono mb-6">
         {new Date().toLocaleDateString('de-DE', {
           weekday: 'long',
           day: '2-digit',
@@ -64,8 +64,8 @@ export default async function UebersichtPage() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {stats.map((s) => (
-          <div key={s.label} className="border border-neutral-800 rounded p-4">
-            <div className="text-xs uppercase text-neutral-500 mb-1">{s.label}</div>
+          <div key={s.label} className="border border-neutral-200 dark:border-neutral-800 rounded p-4">
+            <div className="text-xs uppercase text-neutral-600 dark:text-neutral-500 mb-1">{s.label}</div>
             <div className="text-2xl font-bold font-mono">{s.value}</div>
           </div>
         ))}

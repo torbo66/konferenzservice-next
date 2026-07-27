@@ -17,7 +17,7 @@ export default async function AppLayout({
       : locations.find((l) => l.id === profile.location_id)?.name ?? 'Kein Standort'
 
   return (
-    <div className="min-h-screen flex bg-neutral-950 text-neutral-100">
+    <div className="min-h-screen flex bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100">
       <Sidebar
         role={profile.role}
         displayName={profile.vorname ?? profile.username}

@@ -108,8 +108,8 @@ export function ChipList({
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
         {title}
       </div>
       <div className="p-4">
@@ -139,19 +139,19 @@ export function ChipList({
           {filteredItems.map((i) => (
             <span
               key={i.id}
-              className="inline-flex items-center gap-2 bg-neutral-800 rounded-full pl-3 pr-1.5 py-1 text-sm"
+              className="inline-flex items-center gap-2 bg-neutral-200 dark:bg-neutral-800 rounded-full pl-3 pr-1.5 py-1 text-sm"
             >
               {i.name}
               <button
                 onClick={() => remove(i)}
-                className="w-5 h-5 rounded-full hover:bg-neutral-700 text-neutral-400"
+                className="w-5 h-5 rounded-full hover:bg-neutral-300 dark:hover:bg-neutral-700 text-neutral-500 dark:text-neutral-400"
               >
                 ✕
               </button>
             </span>
           ))}
           {filteredItems.length === 0 && (
-            <span className="text-xs text-neutral-600">
+            <span className="text-xs text-neutral-400 dark:text-neutral-600">
               {items.length === 0 ? 'Noch keine Einträge.' : 'Keine Treffer für diese Suche.'}
             </span>
           )}

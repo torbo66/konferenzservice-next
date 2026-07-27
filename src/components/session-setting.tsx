@@ -19,12 +19,12 @@ export function SessionSetting({ initialTimeout, editable }: { initialTimeout: n
   }
 
   return (
-    <div className="border border-neutral-800 rounded">
-      <div className="px-4 py-3 border-b border-neutral-800 text-xs font-mono uppercase text-lime-400">
+    <div className="border border-neutral-200 dark:border-neutral-800 rounded">
+      <div className="px-4 py-3 border-b border-neutral-200 dark:border-neutral-800 text-xs font-mono uppercase text-lime-700 dark:text-lime-400">
         Sitzung
       </div>
       <div className="p-4">
-        <label className="block text-xs uppercase tracking-wide text-neutral-400 mb-1">
+        <label className="block text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400 mb-1">
           Automatische Abmeldung nach (Minuten)
         </label>
         <input
@@ -36,10 +36,10 @@ export function SessionSetting({ initialTimeout, editable }: { initialTimeout: n
           onChange={(e) => handleChange(parseInt(e.target.value) || 30)}
           className="input max-w-xs"
         />
-        <div className="text-xs text-neutral-500 mt-2">
+        <div className="text-xs text-neutral-600 dark:text-neutral-500 mt-2">
           Standard: 30 Minuten. Aktivität verlängert die Sitzung automatisch.
           {!editable && ' Nur Admins können dies ändern.'}
-          {saved && <span className="text-lime-400 ml-2">Gespeichert</span>}
+          {saved && <span className="text-lime-700 dark:text-lime-400 ml-2">Gespeichert</span>}
         </div>
       </div>
     </div>
