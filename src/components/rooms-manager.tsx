@@ -42,6 +42,14 @@ export function RoomsManager({
   }
 
   async function removeRoom(room: Room) {
+    const { count } = await supabase
+      .from('bookings')
+      .select('id', { count: 'exact', head: true })
+      .eq('room', room.name)
+    if (count && count > 0) {
+      alert(`Raum wird noch von ${count} Buchung(en) verwendet und kann nicht gelöscht werden.`)
+      return
+    }
     if (!confirm(`Raum "${room.name}" löschen?`)) return
     const { error } = await supabase.from('rooms').delete().eq('id', room.id)
     if (error) {

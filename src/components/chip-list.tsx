@@ -54,7 +54,48 @@ export function ChipList({
     setValue('')
   }
 
+  async function checkUsage(item: Item): Promise<string | null> {
+    if (table === 'categories') {
+      const { count } = await supabase
+        .from('products')
+        .select('id', { count: 'exact', head: true })
+        .eq('category', item.name)
+      if (count && count > 0) {
+        return `Kategorie wird noch von ${count} Produkt(en) verwendet und kann nicht gelöscht werden.`
+      }
+    } else if (table === 'costcenters') {
+      const { count } = await supabase
+        .from('bookings')
+        .select('id', { count: 'exact', head: true })
+        .eq('costcenter', item.name)
+      if (count && count > 0) {
+        return `Kostenstelle wird noch von ${count} Buchung(en) verwendet und kann nicht gelöscht werden.`
+      }
+    } else if (table === 'locations') {
+      const { count: roomCount } = await supabase
+        .from('rooms')
+        .select('id', { count: 'exact', head: true })
+        .eq('location_id', item.id)
+      if (roomCount && roomCount > 0) {
+        return `Standort wird noch von ${roomCount} Raum/Räumen verwendet und kann nicht gelöscht werden.`
+      }
+      const { count: userCount } = await supabase
+        .from('profiles')
+        .select('id', { count: 'exact', head: true })
+        .eq('location_id', item.id)
+      if (userCount && userCount > 0) {
+        return `Standort wird noch von ${userCount} Benutzer(n) verwendet und kann nicht gelöscht werden.`
+      }
+    }
+    return null
+  }
+
   async function remove(item: Item) {
+    const blocked = await checkUsage(item)
+    if (blocked) {
+      alert(blocked)
+      return
+    }
     if (!confirm(`"${item.name}" löschen?`)) return
     const { error } = await supabase.from(table).delete().eq('id', item.id)
     if (error) {

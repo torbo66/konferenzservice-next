@@ -103,6 +103,15 @@ export function ProductsManager({
   }
 
   async function remove(p: Product) {
+    const { data: bookingsUsing } = await supabase
+      .from('bookings')
+      .select('id, products')
+      .contains('products', [{ id: p.id }])
+      .limit(1)
+    if (bookingsUsing && bookingsUsing.length > 0) {
+      alert('Produkt wird noch von mindestens einer Buchung verwendet und kann nicht gelöscht werden.')
+      return
+    }
     if (!confirm(`Produkt "${p.name}" löschen?`)) return
     const { error } = await supabase.from('products').delete().eq('id', p.id)
     if (error) {
