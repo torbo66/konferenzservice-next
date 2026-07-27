@@ -68,8 +68,8 @@ export function ProductsManager({
   }
 
   async function save() {
-    if (!name.trim() || !category) {
-      alert('Name und Kategorie sind erforderlich.')
+    if (!plu.trim() || !name.trim() || !category) {
+      alert('PLU, Name und Kategorie sind erforderlich.')
       return
     }
     const priceNum = parseFloat(price.replace(',', '.')) || 0
@@ -78,7 +78,7 @@ export function ProductsManager({
       if (editing) {
         const { data, error } = await supabase
           .from('products')
-          .update({ plu: plu || null, name: name.trim(), category, unit, price: priceNum, inactive })
+          .update({ plu: plu.trim(), name: name.trim(), category, unit, price: priceNum, inactive })
           .eq('id', editing.id)
           .select()
           .single()
@@ -87,7 +87,7 @@ export function ProductsManager({
       } else {
         const { data, error } = await supabase
           .from('products')
-          .insert({ plu: plu || null, name: name.trim(), category, unit, price: priceNum, inactive })
+          .insert({ plu: plu.trim(), name: name.trim(), category, unit, price: priceNum, inactive })
           .select()
           .single()
         if (error) throw error
@@ -208,7 +208,7 @@ export function ProductsManager({
               </button>
             </div>
             <div className="p-5 space-y-3">
-              <Field label="PLU (optional)">
+              <Field label="PLU">
                 <input value={plu} onChange={(e) => setPlu(e.target.value)} className="input" />
               </Field>
               <Field label="Name">
