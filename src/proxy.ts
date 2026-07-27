@@ -3,6 +3,11 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 const PUBLIC_PATHS = ['/login', '/api', '/_next', '/favicon.ico']
 
+function withNoStore(res: NextResponse): NextResponse {
+  res.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate')
+  return res
+}
+
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request })
 
@@ -32,7 +37,7 @@ export async function proxy(request: NextRequest) {
   if (!user && !isPublic) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
-    return NextResponse.redirect(url)
+    return withNoStore(NextResponse.redirect(url))
   }
 
   if (user && !isPublic && path !== '/passwort-aendern') {
@@ -45,11 +50,11 @@ export async function proxy(request: NextRequest) {
     if (profile?.must_change_password) {
       const url = request.nextUrl.clone()
       url.pathname = '/passwort-aendern'
-      return NextResponse.redirect(url)
+      return withNoStore(NextResponse.redirect(url))
     }
   }
 
-  return response
+  return withNoStore(response)
 }
 
 export const config = {
