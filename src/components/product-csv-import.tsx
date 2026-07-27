@@ -19,10 +19,32 @@ export function ProductCsvImport({
     inputRef.current?.click()
   }
 
+  function decodeFileBuffer(buf: ArrayBuffer): string {
+    // Excel-Exporte ("CSV (Trennzeichen-getrennt)") sind oft Windows-1252 statt UTF-8.
+    // Erst UTF-8 versuchen, bei Mojibake-Anzeichen (Ã.., ï¿½, Replacement-Char) auf
+    // Windows-1252 zurueckfallen.
+    const utf8Text = new TextDecoder('utf-8', { fatal: false }).decode(buf)
+    const looksBroken = /\uFFFD|Ã[€-¿]|â€/.test(utf8Text)
+    if (looksBroken) {
+      return new TextDecoder('windows-1252', { fatal: false }).decode(buf)
+    }
+    return utf8Text
+  }
+
+  function normalizeHeader(s: string): string {
+    return s
+      .trim()
+      .replace(/^"|"$/g, '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Umlaute/Akzente entfernen: ä->a, é->e ...
+  }
+
   async function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
     if (!file) return
-    const text = await file.text()
+    const buf = await file.arrayBuffer()
+    const text = decodeFileBuffer(buf)
     const lines = text.split(/\r?\n/).filter((l) => l.trim())
     if (!lines.length) {
       setResult({ msg: 'Datei ist leer.', ok: false })
@@ -30,7 +52,8 @@ export function ProductCsvImport({
     }
     const sep = lines[0].includes('\t') ? '\t' : lines[0].includes(';') ? ';' : ','
     const headers = lines[0].split(sep).map((h) => h.trim().replace(/^"|"$/g, ''))
-    const idx = (n: string) => headers.findIndex((h) => h.toLowerCase() === n.toLowerCase())
+    const headersNorm = headers.map(normalizeHeader)
+    const idx = (n: string) => headersNorm.findIndex((h) => h === normalizeHeader(n))
     const iP = idx('PLU')
     const iN = idx('Kurzbez.')
     const iC = idx('Produktgruppe')
