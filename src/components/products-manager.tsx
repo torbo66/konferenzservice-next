@@ -17,6 +17,25 @@ export function ProductsManager({
   const [categories, setCategories] = useState(initialCategories)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Product | null>(null)
+  const [search, setSearch] = useState('')
+
+  function norm(s: string): string {
+    return s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  }
+
+  const filteredProducts = search.trim()
+    ? products.filter((p) => {
+        const q = norm(search)
+        return (
+          norm(p.name).includes(q) ||
+          norm(p.category).includes(q) ||
+          (p.plu ?? '').toLowerCase().includes(q)
+        )
+      })
+    : products
 
   const [plu, setPlu] = useState('')
   const [name, setName] = useState('')
@@ -106,6 +125,13 @@ export function ProductsManager({
         />
       </div>
       <div className="p-4">
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Suche nach Name, PLU oder Kategorie..."
+          className="input w-full mb-3"
+        />
         <table className="w-full text-sm">
           <thead>
             <tr className="text-left text-xs uppercase text-neutral-500 border-b border-neutral-800">
@@ -119,7 +145,7 @@ export function ProductsManager({
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
+            {filteredProducts.map((p) => (
               <tr key={p.id} className="border-b border-neutral-900">
                 <td className="py-2 font-mono text-xs text-neutral-500">{p.plu}</td>
                 <td className="py-2">{p.name}</td>
@@ -147,10 +173,12 @@ export function ProductsManager({
                 </td>
               </tr>
             ))}
-            {products.length === 0 && (
+            {filteredProducts.length === 0 && (
               <tr>
                 <td colSpan={7} className="py-6 text-center text-neutral-600">
-                  Noch keine Produkte angelegt.
+                  {products.length === 0
+                    ? 'Noch keine Produkte angelegt.'
+                    : 'Keine Treffer für diese Suche.'}
                 </td>
               </tr>
             )}

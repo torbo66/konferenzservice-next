@@ -23,6 +23,18 @@ export function ChipList({
   const [items, setItems] = useState(initialItems)
   const [value, setValue] = useState('')
   const [busy, setBusy] = useState(false)
+  const [search, setSearch] = useState('')
+
+  function norm(s: string): string {
+    return s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  }
+
+  const filteredItems = search.trim()
+    ? items.filter((i) => norm(i.name).includes(norm(search)))
+    : items
 
   async function add() {
     const name = value.trim()
@@ -60,6 +72,15 @@ export function ChipList({
         {title}
       </div>
       <div className="p-4">
+        {items.length > 6 && (
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Suche..."
+            className="input w-full mb-3"
+          />
+        )}
         <div className="flex gap-2 mb-3">
           <input
             type="text"
@@ -74,7 +95,7 @@ export function ChipList({
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
-          {items.map((i) => (
+          {filteredItems.map((i) => (
             <span
               key={i.id}
               className="inline-flex items-center gap-2 bg-neutral-800 rounded-full pl-3 pr-1.5 py-1 text-sm"
@@ -88,8 +109,10 @@ export function ChipList({
               </button>
             </span>
           ))}
-          {items.length === 0 && (
-            <span className="text-xs text-neutral-600">Noch keine Einträge.</span>
+          {filteredItems.length === 0 && (
+            <span className="text-xs text-neutral-600">
+              {items.length === 0 ? 'Noch keine Einträge.' : 'Keine Treffer für diese Suche.'}
+            </span>
           )}
         </div>
       </div>
